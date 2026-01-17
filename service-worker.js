@@ -14,11 +14,24 @@ const urlsToCache = [
 // Install Service Worker
 self.addEventListener('install', event => {
   event.waitUntil(
-    caches.open(CACHE_NAME).then(cache => {
+    caches.open(CACHE_NAME).then(async cache => {
       console.log('Opened cache');
-      return cache.addAll(urlsToCache);
+
+      for (const url of urlsToCache) {
+        try {
+          const response = await fetch(url);
+          if (response.ok) {
+            await cache.put(url, response.clone());
+          } else {
+            console.warn('Skipping cache (not OK):', url);
+          }
+        } catch (err) {
+          console.warn('Skipping cache (failed):', url);
+        }
+      }
     })
   );
+
   self.skipWaiting();
 });
 
