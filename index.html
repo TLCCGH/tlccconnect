@@ -1,270 +1,335 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>TLCC CONNECT</title>
-    <link rel="stylesheet" href="tlccconnect.css">
+ <meta charset="UTF-8">
+ <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+ <title>TLCC CONNECT</title>
+ <link rel="stylesheet" href="tlccconnect.css">
 </head>
 <body data-theme="light">
-    <!-- Auth Screen -->
-    <div class="auth-container" id="authContainer">
-        <div class="auth-card">
-            <div class="logo">
-                <h1>tlcc</h1> 
-                <h2>connect.</h2>
-            </div>
-            
-            <!-- Error Alert -->
-            <div class="auth-error" id="authError"></div>
-            
-            <!-- Login Form -->
-            <form id="loginForm">
-                <div class="form-group">
-                    <label>Username</label>
-                    <input type="email" id="loginEmail" placeholder="Email">
-                </div>
-                <div class="form-group">
-                    <label>Password</label>
-                    <input type="password" id="loginPassword" placeholder="Password">
-                </div>
-                <button type="submit" class="submit-btn" id="loginBtn">Login</button>
-            </form>
-        </div>
-    </div>
 
-    <!-- Main App (Hidden until logged in) -->
-    <div id="mainApp" style="display: none;">
-        <div class="header">
-            <div class="logo-header">
-                <h1>tlcc</h1>
-                <h2>connect.</h2>
-            </div>
-            <div class="header-actions">
-                <!-- Theme Toggle -->
-                <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
-                    <svg class="sun-icon"width="28px" height="28px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g clip-path="url(#a)" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10"> <path d="M5 12H1M23 12h-4M7.05 7.05 4.222 4.222M19.778 19.778 16.95 16.95M7.05 16.95l-2.828 2.828M19.778 4.222 16.95 7.05" stroke-linecap="round"></path> <path d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" fill="#000000" fill-opacity=".16"></path> <path d="M12 19v4M12 1v4" stroke-linecap="round"></path> </g> <defs> <clipPath id="a"> <path fill="#ffffff" d="M0 0h24v24H0z"></path> </clipPath> </defs> </g></svg>
-                    <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
-                    </svg>
-                </button>
-                
-                <!-- Logout Button -->
-                <button class="logout-btn" onclick="logout()">
-                    <svg width="22px" height="22px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15 12L2 12M2 12L5.5 9M2 12L5.5 15" stroke="#ff0000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M9.00195 7C9.01406 4.82497 9.11051 3.64706 9.87889 2.87868C10.7576 2 12.1718 2 15.0002 2L16.0002 2C18.8286 2 20.2429 2 21.1215 2.87868C22.0002 3.75736 22.0002 5.17157 22.0002 8L22.0002 16C22.0002 18.8284 22.0002 20.2426 21.1215 21.1213C20.3531 21.8897 19.1752 21.9862 17 21.9983M9.00195 17C9.01406 19.175 9.11051 20.3529 9.87889 21.1213C10.5202 21.7626 11.4467 21.9359 13 21.9827" stroke="#ff0000" stroke-width="1.5" stroke-linecap="round"></path> </g></svg>
-                </button>
-            </div>
-        </div>
+<!-- Auth Screen -->
+ <div class="auth-container" id="authContainer">
+ <div class="auth-card">
+ <div class="logo">
+ <h1>tlcc</h1>
+ <h2>connect.</h2>
+ </div>
 
-        <div class="message" id="message"></div>
+<!-- Error Alert -->
+ <div class="auth-error" id="authError"></div>
 
-        <div class="content show">
-            <!-- Add Contact Page -->
-            <div class="page active" id="addPage">
-                <div class="form-card">
-                    <h2 style="margin-bottom: 20px; color: #2595e8;">Add New Contact</h2>
-                    <form id="contactForm">
-                        <div class="form-group">
-                            <label>First Name *</label>
-                            <input type="text" id="firstName" required>
-                        </div>
+<!-- Login Form -->
+ <form id="loginForm">
+ <div class="form-group">
+ <label>Username</label>
+ <input type="email" id="loginEmail" placeholder="Email">
+ </div>
+ <div class="form-group">
+ <label>Password</label>
+ <input type="password" id="loginPassword" placeholder="Password">
+ </div>
+ <button type="submit" class="submit-btn" id="loginBtn">Login</button>
+ </form>
+ </div>
+ </div>
 
-                        <div class="form-group">
-                            <label>Last Name *</label>
-                            <input type="text" id="lastName" required>
-                        </div>
+<!-- Main App (Hidden until logged in) -->
+ <div id="mainApp" style="display: none;">
+ <div class="header">
+ <div class="logo-header">
+ <h1>tlcc</h1>
+ <h2>connect.</h2>
+ </div>
+ <div class="header-actions">
 
-                        <div class="form-group">
-                            <label>Other Names</label>
-                            <input type="text" id="otherNames">
-                        </div>
+<!-- Theme Toggle -->
+ <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+ <svg class="sun-icon"width="28px" height="28px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <g clip-path="url(#a)" stroke="#000000" stroke-width="1.5" stroke-miterlimit="10"> <path d="M5 12H1M23 12h-4M7.05 7.05 4.222 4.222M19.778 19.778 16.95 16.95M7.05 16.95l-2.828 2.828M19.778 4.222 16.95 7.05" stroke-linecap="round"></path> <path d="M12 16a4 4 0 1 0 0-8 4 4 0 0 0 0 8Z" fill="#000000" fill-opacity=".16"></path> <path d="M12 19v4M12 1v4" stroke-linecap="round"></path> </g> <defs> <clipPath id="a"> <path fill="#ffffff" d="M0 0h24v24H0z"></path> </clipPath> </defs> </g></svg>
+ <svg class="moon-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+ <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+ </svg>
+ </button>
 
-                        <div class="form-group">
-                            <label>Phone * </label>
-                            <input type="tel" id="phone" required maxlength="10" pattern="[0-9]{10}" placeholder="024XXXXXXX">
-                        </div>
+<!-- Logout Button -->
+ <button class="logout-btn" onclick="logout()">
+ <svg width="22px" height="22px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M15 12L2 12M2 12L5.5 9M2 12L5.5 15" stroke="#ff0000" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> <path d="M9.00195 7C9.01406 4.82497 9.11051 3.64706 9.87889 2.87868C10.7576 2 12.1718 2 15.0002 2L16.0002 2C18.8286 2 20.2429 2 21.1215 2.87868C22.0002 3.75736 22.0002 5.17157 22.0002 8L22.0002 16C22.0002 18.8284 22.0002 20.2426 21.1215 21.1213C20.3531 21.8897 19.1752 21.9862 17 21.9983M9.00195 17C9.01406 19.175 9.11051 20.3529 9.87889 21.1213C10.5202 21.7626 11.4467 21.9359 13 21.9827" stroke="#ff0000" stroke-width="1.5" stroke-linecap="round"></path> </g></svg>
+ </button>
+ </div>
+ </div>
 
-                        <div class="form-group">
-                            <label>Alternative Phone number</label>
-                            <input type="tel" id="altPhone" maxlength="10" pattern="[0-9]{10}" placeholder="024XXXXXXX">
-                        </div>
+ <div class="message" id="message"></div>
 
-                        <div class="form-group">
-                            <label>Email</label>
-                            <input type="email" id="email">
-                        </div>
+ <div class="content show">
 
-                        <div class="form-group">
-                            <label>Status *</label>
-                            <select id="status" required>
-                                <option value="">Select status...</option>
-                                <option value="Regular attendee">Regular Attendee</option>
-                                <option value="Returning Visitor">Returning Visitor</option>
-                                <option value="First Time Guest">First Time Guest</option>
-                            </select>
-                        </div>
+<!-- Add Contact Page -->
+ <div class="page active" id="addPage">
+ <div class="form-card">
+ <h2 style="margin-bottom: 20px; color: #2595e8;">Add New Contact</h2>
+ 
+ <!-- Table Selection Tabs -->
+ <div class="table-tabs">
+ <button type="button" class="tab-btn active" onclick="switchTable('general')">General Contact</button>
+ <button type="button" class="tab-btn" onclick="switchTable('mens')">Men's Fellowship</button>
+ </div>
+ 
+ <form id="contactForm">
+ <!-- General Contact Fields -->
+ <div id="generalFields">
+ <div class="form-group">
+ <label>First Name *</label>
+ <input type="text" id="firstName" required>
+ </div>
+ <div class="form-group">
+ <label>Last Name *</label>
+ <input type="text" id="lastName" required>
+ </div>
+ <div class="form-group">
+ <label>Other Names</label>
+ <input type="text" id="otherNames">
+ </div>
+ <div class="form-group">
+ <label>Phone * </label>
+ <input type="tel" id="phone" required maxlength="10" pattern="[0-9]{10}" placeholder="024XXXXXXX">
+ </div>
+ <div class="form-group">
+ <label>Alternative Phone number</label>
+ <input type="tel" id="altPhone" maxlength="10" pattern="[0-9]{10}" placeholder="024XXXXXXX">
+ </div>
+ <div class="form-group">
+ <label>Email</label>
+ <input type="email" id="email">
+ </div>
+ <div class="form-group">
+ <label>Status *</label>
+ <select id="status" required>
+ <option value="">Select status...</option>
+ <option value="Regular attendee">Regular Attendee</option>
+ <option value="Returning Visitor">Returning Visitor</option>
+ <option value="First Time Guest">First Time Guest</option>
+ </select>
+ </div>
+ <div class="form-group">
+ <label>Age Group</label>
+ <select id="ageGroup">
+ <option value="">Select age group...</option>
+ <option value="Youth">Youth (0-17)</option>
+ <option value="Young Adult">Young Adult (18-35)</option>
+ <option value="Adult">Adult (36-55)</option>
+ <option value="Senior">Senior (56+)</option>
+ </select>
+ </div>
+ <div class="form-group">
+ <label>Gender</label>
+ <select id="gender">
+ <option value="">Select gender...</option>
+ <option value="Male">Male</option>
+ <option value="Female">Female</option>
+ <option value="Other">Other</option>
+ </select>
+ </div>
+ <div class="form-group">
+ <label>Marital Status</label>
+ <select id="maritalStatus">
+ <option value="">Select marital status...</option>
+ <option value="Single">Single</option>
+ <option value="Married">Married</option>
+ <option value="Other">Other</option>
+ </select>
+ </div>
+ </div>
+ 
+ <!-- Men's Fellowship Fields -->
+ <div id="mensFields" style="display: none;">
+ <div class="form-group">
+ <label>First Name *</label>
+ <input type="text" id="mensFirstName">
+ </div>
+ <div class="form-group">
+ <label>Other Name</label>
+ <input type="text" id="mensOtherName">
+ </div>
+ <div class="form-group">
+ <label>Last Name *</label>
+ <input type="text" id="mensLastName">
+ </div>
+ <div class="form-group">
+ <label>Alias</label>
+ <input type="text" id="mensAlias">
+ </div>
+ <div class="form-group">
+ <label>Marital Status</label>
+ <select id="mensMaritalStatus">
+ <option value="">Select marital status...</option>
+ <option value="Single">Single</option>
+ <option value="Married">Married</option>
+ <option value="Other">Other</option>
+ </select>
+ </div>
+ <div class="form-group">
+ <label>Area of Residence</label>
+ <input type="text" id="mensAreaOfResidence">
+ </div>
+ <div class="form-group">
+ <label>Occupation</label>
+ <input type="text" id="mensOccupation">
+ </div>
+ <div class="form-group">
+ <label>Friends or Relatives in TLCC Contact</label>
+ <input type="text" id="mensRelatives" placeholder="e.g., 0241234567 - John Doe">
+ <small style="color: var(--text-secondary); font-size: 12px; margin-top: 4px; display: block;">Format: Phone - Name (e.g., 0241234567 - John Doe)</small>
+ </div>
+ <div class="form-group">
+ <label>Friends or Relatives in TLCC Contact (Alt)</label>
+ <input type="text" id="mensRelativesAlt" placeholder="e.g., 0241234567 - Jane Doe">
+ <small style="color: var(--text-secondary); font-size: 12px; margin-top: 4px; display: block;">Format: Phone - Name (e.g., 0241234567 - Jane Doe)</small>
+ </div>
+ <div class="form-group">
+ <label>Personal Contact *</label>
+ <input type="tel" id="mensPersonalContact" maxlength="10" pattern="[0-9]{10}" placeholder="024XXXXXXX">
+ </div>
+ <div class="form-group">
+ <label>Alternative Contact</label>
+ <input type="tel" id="mensAltContact" maxlength="10" pattern="[0-9]{10}" placeholder="024XXXXXXX">
+ </div>
+ <div class="form-group">
+ <label>Email</label>
+ <input type="email" id="mensEmail">
+ </div>
+ </div>
+ 
+ <button type="submit" class="submit-btn" id="submitBtn">
+ Add Contact
+ </button>
+ </form>
+ </div>
+ </div>
 
-                        <div class="form-group">
-                            <label>Age Group</label>
-                            <select id="ageGroup">
-                                <option value="">Select age group...</option>
-                                <option value="Youth">Youth (0-17)</option>
-                                <option value="Young Adult">Young Adult (18-35)</option>
-                                <option value="Adult">Adult (36-55)</option>
-                                <option value="Senior">Senior (56+)</option>
-                            </select>
-                        </div>
+<!-- View Contacts Page -->
+ <div class="page" id="viewPage">
 
-                        <div class="form-group">
-                            <label>Gender</label>
-                            <select id="gender">
-                                <option value="">Select gender...</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
+<!-- Contact Count Header -->
+ <div class="contact-count" id="contactCount">
+ <span id="countText">0 Contacts</span>
+ </div>
 
-                        <div class="form-group">
-                            <label>Marital Status</label>
-                            <select id="maritalStatus">
-                                <option value="">Select marital status...</option>
-                                <option value="Single">Single</option>
-                                <option value="Married">Married</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
+ <div class="search-filter-bar">
+ <div class="search-bar">
+ <input type="text" class="search-input" id="searchInput" placeholder="Search contacts...">
+ <span class="search-icon">
+ <svg width="34px" height="34px" viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+ <path fill-rule="evenodd" clip-rule="evenodd" d="M5.5 10.7655C5.50003 8.01511 7.44296 5.64777 10.1405 5.1113C12.8381 4.57483 15.539 6.01866 16.5913 8.55977C17.6437 11.1009 16.7544 14.0315 14.4674 15.5593C12.1804 17.0871 9.13257 16.7866 7.188 14.8415C6.10716 13.7604 5.49998 12.2942 5.5 10.7655Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+ <path d="M17.029 16.5295L19.5 19.0005" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
+ </svg>
+ </span>
+ </div>
 
-                        <button type="submit" class="submit-btn" id="submitBtn">
-                            Add Contact
-                        </button>
-                    </form>
-                </div>
-            </div>
+ <button class="filter-icon-btn" onclick="toggleFilterMenu()">
+ <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+ <path d="M20.058 9.72255C21.0065 9.18858 21.4808 8.9216 21.7404 8.49142C22 8.06124 22 7.54232 22 6.50448V5.81466C22 4.48782 22 3.8244 21.5607 3.4122C21.1213 3 20.4142 3 19 3H5C3.58579 3 2.87868 3 2.43934 3.4122C2 3.8244 2 4.48782 2 5.81466V6.50448C2 7.54232 2 8.06124 2.2596 8.49142C2.5192 8.9216 2.99347 9.18858 3.94202 9.72255L6.85504 11.3624C7.49146 11.7206 7.80967 11.8998 8.03751 12.0976C8.51199 12.5095 8.80408 12.9935 8.93644 13.5872C9 13.8722 9 14.2058 9 14.8729L9 17.5424C9 18.452 9 18.9067 9.25192 19.2613C9.50385 19.6158 9.95128 19.7907 10.8462 20.1406C12.7248 20.875 13.6641 21.2422 14.3321 20.8244C15 20.4066 15 19.4519 15 17.5424V14.8729C15 14.2058 15 13.8722 15.0636 13.5872C15.1959 12.9935 15.488 12.5095 15.9625 12.0976" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
+ </svg>
+ </button>
+ </div>
 
-            <!-- View Contacts Page -->
-            <div class="page" id="viewPage">
-                <!-- Contact Count Header -->
-                <div class="contact-count" id="contactCount">
-                    <span id="countText">0 Contacts</span>
-                </div>
+<!-- Filter Menu Popover -->
+ <div class="filter-popover" id="filterMenu">
+ <div class="filter-popover-arrow"></div>
+ <div class="filter-popover-content">
+ <h4>Filter by Status</h4>
+ <div class="filter-options">
+ <label class="filter-option">
+ <input type="radio" name="statusFilter" value="All" checked>
+ <span>All Contacts</span>
+ </label>
+ <label class="filter-option">
+ <input type="radio" name="statusFilter" value="Regular Attendee">
+ <span>Regular Attendee</span>
+ </label>
+ <label class="filter-option">
+ <input type="radio" name="statusFilter" value="Returning Visitor">
+ <span>Returning Visitor</span>
+ </label>
+ <label class="filter-option">
+ <input type="radio" name="statusFilter" value="First Time Guest">
+ <span>First Time Guest</span>
+ </label>
+ <label class="filter-option">
+ <input type="radio" name="statusFilter" value="Men's Fellowship">
+ <span>Men's Fellowship</span>
+ </label>
+ </div>
+ </div>
+ </div>
 
-                <div class="search-filter-bar">
-                    <div class="search-bar">
-                        <input type="text" class="search-input" id="searchInput" placeholder="Search contacts...">
-                        <span class="search-icon">
-                            <svg width="34px" height="34px" viewBox="0 -0.5 25 25" fill="none" xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd" clip-rule="evenodd" d="M5.5 10.7655C5.50003 8.01511 7.44296 5.64777 10.1405 5.1113C12.8381 4.57483 15.539 6.01866 16.5913 8.55977C17.6437 11.1009 16.7544 14.0315 14.4674 15.5593C12.1804 17.0871 9.13257 16.7866 7.188 14.8415C6.10716 13.7604 5.49998 12.2942 5.5 10.7655Z" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                                <path d="M17.029 16.5295L19.5 19.0005" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path>
-                            </svg>
-                        </span>
-                    </div>
-                    <button class="filter-icon-btn" onclick="toggleFilterMenu()">
-                        <svg width="24px" height="24px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M20.058 9.72255C21.0065 9.18858 21.4808 8.9216 21.7404 8.49142C22 8.06124 22 7.54232 22 6.50448V5.81466C22 4.48782 22 3.8244 21.5607 3.4122C21.1213 3 20.4142 3 19 3H5C3.58579 3 2.87868 3 2.43934 3.4122C2 3.8244 2 4.48782 2 5.81466V6.50448C2 7.54232 2 8.06124 2.2596 8.49142C2.5192 8.9216 2.99347 9.18858 3.94202 9.72255L6.85504 11.3624C7.49146 11.7206 7.80967 11.8998 8.03751 12.0976C8.51199 12.5095 8.80408 12.9935 8.93644 13.5872C9 13.8722 9 14.2058 9 14.8729L9 17.5424C9 18.452 9 18.9067 9.25192 19.2613C9.50385 19.6158 9.95128 19.7907 10.8462 20.1406C12.7248 20.875 13.6641 21.2422 14.3321 20.8244C15 20.4066 15 19.4519 15 17.5424V14.8729C15 14.2058 15 13.8722 15.0636 13.5872C15.1959 12.9935 15.488 12.5095 15.9625 12.0976" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"></path>
-                        </svg>
-                    </button>
-                </div>
-                
-                <!-- Filter Menu Popover -->
-                <div class="filter-popover" id="filterMenu">
-                    <div class="filter-popover-arrow"></div>
-                    <div class="filter-popover-content">
-                        <h4>Filter by Status</h4>
-                        <div class="filter-options">
-                            <label class="filter-option">
-                                <input type="radio" name="statusFilter" value="All" checked>
-                                <span>All Contacts</span>
-                            </label>
-                            <label class="filter-option">
-                                <input type="radio" name="statusFilter" value="Regular Attendee">
-                                <span>Regular Attendee</span>
-                            </label>
-                            <label class="filter-option">
-                                <input type="radio" name="statusFilter" value="Returning Visitor">
-                                <span>Returning Visitor</span>
-                            </label>
-                            <label class="filter-option">
-                                <input type="radio" name="statusFilter" value="First Time Guest">
-                                <span>First Time Guest</span>
-                            </label>
-                            <label class="filter-option">
-                                <input type="radio" name="statusFilter" value="Men's Fellowship">
-                                <span>Men's Fellowship</span>
-                            </label>
-                        </div>
-                    </div>
-                </div>
+ <div id="contactsList">
+ <div class="loading">Loading contacts...</div>
+ </div>
+ </div>
+ </div>
 
-                <div id="contactsList">
-                    <div class="loading">Loading contacts...</div>
-                </div>
-            </div>
-        </div>
+<!-- Relative Contact Popover -->
+ <div class="relative-popover" id="relativePopover">
+ <div class="relative-popover-content">
+ <h4 id="relativeName"></h4>
+ <p id="relativePhone"></p>
+ <div class="relative-actions">
+ <button class="action-btn call-btn" onclick="callRelative()">📞 Call</button>
+ <button class="action-btn whatsapp-btn" onclick="whatsappRelative()">💬 WhatsApp</button>
+ </div>
+ </div>
+ </div>
 
-        <!-- Relative Contact Popover -->
-        <div class="relative-popover" id="relativePopover">
-            <div class="relative-popover-content">
-                <h4 id="relativeName"></h4>
-                <p id="relativePhone"></p>
-                <div class="relative-actions">
-                    <button class="action-btn call-btn" onclick="callRelative()">📞 Call</button>
-                    <button class="action-btn whatsapp-btn" onclick="whatsappRelative()">💬 WhatsApp</button>
-                </div>
-            </div>
-        </div>
+<!-- Called Status Menu -->
+ <div class="called-menu" id="calledMenu">
+ <div class="called-menu-content">
+ <p>Remove called status?</p>
+ <div class="called-menu-buttons">
+ <button class="cancel-btn" onclick="closeCalledMenu()">Cancel</button>
+ <button class="confirm-btn" onclick="confirmRemoveCalled()">Remove</button>
+ </div>
+ </div>
+ </div>
 
-        <!-- Called Status Menu -->
-        <div class="called-menu" id="calledMenu">
-            <div class="called-menu-content">
-                <p>Remove called status?</p>
-                <div class="called-menu-buttons">
-                    <button class="cancel-btn" onclick="closeCalledMenu()">Cancel</button>
-                    <button class="confirm-btn" onclick="confirmRemoveCalled()">Remove</button>
-                </div>
-            </div>
-        </div>
+<!-- Bottom Navigation -->
+ <div class="bottom-nav">
+ <button class="nav-item active" onclick="switchPage('add')">
+ <div class="nav-icon">
+ <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+ <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
+ <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
+ <g id="SVGRepo_iconCarrier">
+ <path d="M12 2C9.38 2 7.25 4.13 7.25 6.75C7.25 9.32 9.26 11.4 11.88 11.49C11.96 11.48 12.04 11.48 12.1 11.49C12.12 11.49 12.13 11.49 12.15 11.49C12.16 11.49 12.16 11.49 12.17 11.49C14.73 11.4 16.74 9.32 16.75 6.75C16.75 4.13 14.62 2 12 2Z" fill="currentColor"></path>
+ <path opacity="0.4" d="M17.0809 14.1499C14.2909 12.2899 9.74094 12.2899 6.93094 14.1499C5.66094 14.9999 4.96094 16.1499 4.96094 17.3799C4.96094 18.6099 5.66094 19.7499 6.92094 20.5899C8.32094 21.5299 10.1609 21.9999 12.0009 21.9999C13.8409 21.9999 15.6809 21.5299 17.0809 20.5899C18.3409 19.7399 19.0409 18.5999 19.0409 17.3599C19.0309 16.1299 18.3409 14.9899 17.0809 14.1499Z" fill="currentColor"></path>
+ <path d="M14 16.6299H12.75V15.3799C12.75 14.9699 12.41 14.6299 12 14.6299C11.59 14.6299 11.25 14.9699 11.25 15.3799V16.6299H10C9.59 16.6299 9.25 16.9699 9.25 17.3799C9.25 17.7899 9.59 18.1299 10 18.1299H11.25V19.3799C11.25 19.7899 11.59 20.1299 12 20.1299C12.41 20.1299 12.75 19.7899 12.75 19.3799V18.1299H14C14.41 18.1299 14.75 17.7899 14.75 17.3799C14.75 16.9699 14.41 16.6299 14 16.6299Z" fill="currentColor"></path>
+ </g>
+ </svg>
+ </div>
+ <div class="nav-label">Add</div>
+ </button>
 
-        <!-- Bottom Navigation -->
-        <div class="bottom-nav">
-            <button class="nav-item active" onclick="switchPage('add')">
-                <div class="nav-icon">
-                    <svg width="30px" height="30px" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <g id="SVGRepo_bgCarrier" stroke-width="0"></g>
-                        <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g>
-                        <g id="SVGRepo_iconCarrier">
-                            <path d="M12 2C9.38 2 7.25 4.13 7.25 6.75C7.25 9.32 9.26 11.4 11.88 11.49C11.96 11.48 12.04 11.48 12.1 11.49C12.12 11.49 12.13 11.49 12.15 11.49C12.16 11.49 12.16 11.49 12.17 11.49C14.73 11.4 16.74 9.32 16.75 6.75C16.75 4.13 14.62 2 12 2Z" fill="currentColor"></path>
-                            <path opacity="0.4" d="M17.0809 14.1499C14.2909 12.2899 9.74094 12.2899 6.93094 14.1499C5.66094 14.9999 4.96094 16.1499 4.96094 17.3799C4.96094 18.6099 5.66094 19.7499 6.92094 20.5899C8.32094 21.5299 10.1609 21.9999 12.0009 21.9999C13.8409 21.9999 15.6809 21.5299 17.0809 20.5899C18.3409 19.7399 19.0409 18.5999 19.0409 17.3599C19.0309 16.1299 18.3409 14.9899 17.0809 14.1499Z" fill="currentColor"></path>
-                            <path d="M14 16.6299H12.75V15.3799C12.75 14.9699 12.41 14.6299 12 14.6299C11.59 14.6299 11.25 14.9699 11.25 15.3799V16.6299H10C9.59 16.6299 9.25 16.9699 9.25 17.3799C9.25 17.7899 9.59 18.1299 10 18.1299H11.25V19.3799C11.25 19.7899 11.59 20.1299 12 20.1299C12.41 20.1299 12.75 19.7899 12.75 19.3799V18.1299H14C14.41 18.1299 14.75 17.7899 14.75 17.3799C14.75 16.9699 14.41 16.6299 14 16.6299Z" fill="currentColor"></path>
-                        </g>
-                    </svg>
-                </div>
-                <div class="nav-label">Add</div>
-            </button>
+ <button class="nav-item" onclick="switchPage('view')">
+ <div class="nav-icon">
+ <svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none">
+ <path d="M5 7V5C5 3.89543 5.89543 3 7 3H19C20.1046 3 21 3.89543 21 5V19C21 20.1046 20.1046 21 19 21H7C5.89543 21 5 20.1046 5 19V7Z"
+ stroke="currentColor"
+ stroke-width="2"
+ stroke-linecap="round"
+ stroke-linejoin="round"></path>
+ <path d="M16 12C16 13.6569 14.6569 15 13 15C11.3431 15 10 13.6569 10 12C10 10.3431 11.3431 9 13 9C14.6569 9 16 10.3431 16 12Z"
+ stroke="currentColor"
+ stroke-width="2"></path>
+ <path d="M9 21C9.42546 18.6928 10.52 18 13 18C15.48 18 16.5745 18.6425 17 20.9497"
+ stroke="currentColor"
+ stroke-width="2"
+ stroke-linecap="round"></path>
+ </svg>
+ </div>
+ <div class="nav-label">Contacts</div>
+ </button>
+ </div>
+ </div>
 
-            <button class="nav-item" onclick="switchPage('view')">
-                <div class="nav-icon">
-                    <svg width="28" height="28" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" fill="none">
-                        <path d="M5 7V5C5 3.89543 5.89543 3 7 3H19C20.1046 3 21 3.89543 21 5V19C21 20.1046 20.1046 21 19 21H7C5.89543 21 5 20.1046 5 19V7Z"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"></path>
-                        <path d="M16 12C16 13.6569 14.6569 15 13 15C11.3431 15 10 13.6569 10 12C10 10.3431 11.3431 9 13 9C14.6569 9 16 10.3431 16 12Z"
-                            stroke="currentColor"
-                            stroke-width="2"></path>
-                        <path d="M9 21C9.42546 18.6928 10.52 18 13 18C15.48 18 16.5745 18.6425 17 20.9497"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"></path>
-                    </svg>
-                </div>
-                <div class="nav-label">Contacts</div>
-            </button>
-        </div>    
-    </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="tlccconnect.js"></script>
+ <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+ <script src="tlccconnect.js"></script>
 </body>
 </html>
