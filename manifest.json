@@ -1,73 +1,20 @@
 {
-  "name": "TLCC Connect - Church Contact Manager",
+  "name": "TLCC Connect",
   "short_name": "TLCC Connect",
-  "description": "Professional contact management system for TLCC Church",
   "start_url": "/tlccconnect/",
   "scope": "/tlccconnect/",
   "display": "standalone",
   "background_color": "#ffffff",
   "theme_color": "#2595e8",
-  "orientation": "portrait",
   "icons": [
     {
-      "src": "/tlccconnect/icons/Icon-72x72.png",
-      "sizes": "72x72",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/tlccconnect/icons/Icon-96x96.png",
-      "sizes": "96x96",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/tlccconnect/icons/Icon-128x128.png",
-      "sizes": "128x128",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/tlccconnect/icons/Icon-144x144.png",
-      "sizes": "144x144",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/tlccconnect/icons/Icon-152x152.png",
-      "sizes": "152x152",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/tlccconnect/icons/Icon-192x192.png",
+      "src": "/tlccconnect/icons/icon-192x192.png",
       "sizes": "192x192",
-      "type": "image/png",
-      "purpose": "any maskable"
-    },
-    {
-      "src": "/tlccconnect/icons/icon-384x384.png",
-      "sizes": "384x384",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "type": "image/png"
     },
     {
       "src": "/tlccconnect/icons/icon-512x512.png",
       "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
-    }
-  ],
-  "categories": ["productivity", "utilities"],
-  "screenshots": [
-    {
-      "src": "/tlccconnect/screenshots/screenshot1.png",
-      "sizes": "540x720",
-      "type": "image/png"
-    },
-    {
-      "src": "/tlccconnect/screenshots/screenshot2.png",
-      "sizes": "540x720",
       "type": "image/png"
     }
   ]
