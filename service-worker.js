@@ -7,8 +7,8 @@ const urlsToCache = [
   '/tlccconnect/tlccconnect.css',
   '/tlccconnect/tlccconnect.js',
   '/tlccconnect/manifest.json',
-  '/tlccconnect/icons/icon-192x192.png',
-  '/tlccconnect/icons/icon-512x512.png'
+  '/tlccconnect/icons/Icon-192x192.png',
+  '/tlccconnect/icons/Icon-512x512.png'
 ];
 
 // Install Service Worker
