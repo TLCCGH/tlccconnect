@@ -414,21 +414,32 @@ return;
 
  list.innerHTML = contacts.map(c => {
 const contactData = encodeURIComponent(JSON.stringify(c));
+const ageGroupDisplay = getAgeGroupDisplay(c['Age group']);
+const hasMultiplePhones = c['Phone'] && c['Alt Phone'];
+
 return `
- <div class="contact-card">
+ <div class="contact-card ${isNewContact(c['date added']) ? 'has-new-badge' : ''}">
 ${isNewContact(c['date added']) ? '<div class="new-badge">New</div>' : ''}
  <div class="contact-header">
  <div class="contact-name">${c['First Name'] || ''} ${c['Last Name'] || ''}</div>
  <div class="contact-status">${c['Status'] || ''}</div>
  </div>
  <div class="contact-info">
- <div class="info-item">📞 ${c['Phone'] || 'N/A'}</div>
+ <div class="info-item">📞 ${c['Phone'] || 'N/A'}${c['Alt Phone'] ? ` / ${c['Alt Phone']}` : ''}</div>
 ${c['Email'] ? `<div class="info-item">📧 ${c['Email']}</div>` : ''}
-${c['Age group'] ? `<div class="info-item">👤 ${c['Age group']}</div>` : ''}
+${ageGroupDisplay ? `<div class="info-item">👤 ${ageGroupDisplay}</div>` : ''}
  </div>
  <div class="contact-actions">
- <button class="action-btn call-btn" onclick="makeCall('${c['Phone'] || ''}')">📞 Call</button>
-${c['Phone'] ? `<button class="action-btn whatsapp-btn" onclick="openWhatsApp('${contactData}')">💬 WhatsApp</button>` : ''}
+${hasMultiplePhones 
+  ? `<button class="action-btn call-btn" onclick="showPhoneMenu(event, '${c['Phone']}', '${c['Alt Phone'] || ''}', 'call')">📞 Call</button>`
+  : `<button class="action-btn call-btn" onclick="makeCall('${c['Phone'] || ''}')">📞 Call</button>`
+}
+${c['Phone'] 
+  ? hasMultiplePhones
+    ? `<button class="action-btn whatsapp-btn" onclick="showPhoneMenu(event, '${c['Phone']}', '${c['Alt Phone']}', 'whatsapp', '${escapeHtml(c['First Name'])}')">💬 WhatsApp</button>`
+    : `<button class="action-btn whatsapp-btn" onclick="openWhatsApp('${contactData}')">💬 WhatsApp</button>`
+  : ''
+}
  <button class="action-btn mark-called-btn ${c['Called'] ? 'called' : ''}" onclick="handleCalledClick(${c.id}, ${c['Called']})">
 ${c['Called'] ? '✓ Called' : 'Mark'}
  </button>
@@ -471,9 +482,10 @@ const allRelatives = [...relatives, ...relativesAlt];
 
 const displayName = alias ? `${firstName} ${lastName} <span style="color: #2595e8; font-weight: 500;">(${alias})</span>` : `${firstName} ${lastName}`;
 const statusInfo = [maritalStatus, occupation].filter(Boolean).join(' • ');
+const hasMultiplePhones = personalContact !== 'N/A' && altContact;
 
 return `
- <div class="contact-card">
+ <div class="contact-card ${isNewContact(dateAdded) ? 'has-new-badge' : ''}">
 ${isNewContact(dateAdded) ? '<div class="new-badge">New</div>' : ''}
  <div class="contact-header">
  <div class="contact-name">${displayName}</div>
@@ -488,13 +500,20 @@ ${allRelatives.length > 0 ? `
  ).join('')}
  </div>
  ` : ''}
- <div class="info-item">📞 ${personalContact}</div>
-${altContact ? `<div class="info-item">📱 ${altContact}</div>` : ''}
+ <div class="info-item">📞 ${personalContact}${altContact ? ` / ${altContact}` : ''}</div>
 ${email ? `<div class="info-item">📧 ${email}</div>` : ''}
  </div>
  <div class="contact-actions">
- <button class="action-btn call-btn" onclick="makeCall('${personalContact}')">📞 Call</button>
-${personalContact !== 'N/A' ? `<button class="action-btn whatsapp-btn" onclick="openWhatsAppSimple('${personalContact}', '${escapeHtml(firstName)}')">💬 WhatsApp</button>` : ''}
+${hasMultiplePhones
+  ? `<button class="action-btn call-btn" onclick="showPhoneMenu(event, '${personalContact}', '${altContact}', 'call')">📞 Call</button>`
+  : `<button class="action-btn call-btn" onclick="makeCall('${personalContact}')">📞 Call</button>`
+}
+${personalContact !== 'N/A' 
+  ? hasMultiplePhones
+    ? `<button class="action-btn whatsapp-btn" onclick="showPhoneMenu(event, '${personalContact}', '${altContact}', 'whatsapp', '${escapeHtml(firstName)}')">💬 WhatsApp</button>`
+    : `<button class="action-btn whatsapp-btn" onclick="openWhatsAppSimple('${personalContact}', '${escapeHtml(firstName)}')">💬 WhatsApp</button>`
+  : ''
+}
  <button class="action-btn mark-called-btn ${m['Called'] ? 'called' : ''}" onclick="handleMensCalledClick('${memberId}', ${m['Called'] || false})">
 ${m['Called'] ? '✓ Called' : 'Mark'}
  </button>
@@ -568,8 +587,75 @@ closeRelativePopover();
 /* ================================
  ACTIONS & HELPERS
 ================================ */
+function getAgeGroupDisplay(ageGroup) {
+if (!ageGroup) return '';
+
+const ageRanges = {
+ 'Youth': '0-17',
+ 'Young Adult': '18-35',
+ 'Adult': '36-55',
+ 'Senior': '56+'
+};
+
+return ageRanges[ageGroup] || ageGroup;
+}
+
 function makeCall(phone) {
 if (phone && phone !== 'N/A') window.location.href = `tel:${phone}`;
+}
+
+function showPhoneMenu(event, phone1, phone2, action, firstName = '') {
+ event.stopPropagation();
+ 
+const menu = document.getElementById('phoneMenu');
+const menuContent = document.getElementById('phoneMenuContent');
+ 
+let html = '<h4>Select Phone Number</h4><div class="phone-options">';
+ 
+if (action === 'call') {
+ html += `
+ <button class="phone-option" onclick="makeCall('${phone1}'); closePhoneMenu();">
+ <span class="phone-label">Primary</span>
+ <span class="phone-number">${phone1}</span>
+ </button>`;
+ 
+if (phone2) {
+ html += `
+ <button class="phone-option" onclick="makeCall('${phone2}'); closePhoneMenu();">
+ <span class="phone-label">Alternative</span>
+ <span class="phone-number">${phone2}</span>
+ </button>`;
+ }
+ } else if (action === 'whatsapp') {
+const formattedPhone1 = formatPhoneForWhatsApp(phone1);
+const formattedPhone2 = phone2 ? formatPhoneForWhatsApp(phone2) : '';
+const message = encodeURIComponent(`Hello${firstName ? ', ' + firstName : ''}`);
+ 
+ html += `
+ <button class="phone-option" onclick="window.open('https://wa.me/${formattedPhone1}?text=${message}', '_blank'); closePhoneMenu();">
+ <span class="phone-label">Primary</span>
+ <span class="phone-number">${phone1}</span>
+ </button>`;
+ 
+if (phone2) {
+ html += `
+ <button class="phone-option" onclick="window.open('https://wa.me/${formattedPhone2}?text=${message}', '_blank'); closePhoneMenu();">
+ <span class="phone-label">Alternative</span>
+ <span class="phone-number">${phone2}</span>
+ </button>`;
+ }
+ }
+ 
+ html += '</div>';
+ menuContent.innerHTML = html;
+ menu.classList.add('show');
+}
+
+function closePhoneMenu() {
+const menu = document.getElementById('phoneMenu');
+if (menu) {
+ menu.classList.remove('show');
+ }
 }
 
 function openWhatsApp(contactData) {
@@ -783,3 +869,6 @@ window.switchPage = switchPage;
 window.toggleTheme = toggleTheme;
 window.logout = logout;
 window.switchTable = switchTable;
+window.showPhoneMenu = showPhoneMenu;
+window.closePhoneMenu = closePhoneMenu;
+window.getAgeGroupDisplay = getAgeGroupDisplay;
