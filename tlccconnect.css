@@ -511,12 +511,18 @@ transition: transform 0.2s;
 position: relative;
 }
 
+.contact-card.has-new-badge {
+padding-top: 35px;
+}
+
 .contact-card:active {
 transform: scale(0.98);
 }
 
 .new-badge {
 position: absolute;
+top: 10px;
+left: 10px;
 background: linear-gradient(135deg, #10b981 0%, #059669 100%);
 color: white;
 padding: 4px 12px;
@@ -524,14 +530,13 @@ border-radius: 12px;
 font-size: 11px;
 font-weight: 700;
 text-transform: uppercase;
-z-index: 0;
+z-index: 1;
 }
 
 .contact-header {
 display: flex;
 justify-content: space-between;
 align-items: flex-start;
-padding-top: 25px;
 }
 
 .contact-name {
@@ -744,6 +749,82 @@ color: white;
 .confirm-btn {
 background: #dc2626;
 color: white;
+}
+
+/* Phone Selection Menu */
+.phone-menu {
+position: fixed;
+top: 0;
+left: 0;
+right: 0;
+bottom: 0;
+background: rgba(0, 0, 0, 0.5);
+display: none;
+align-items: center;
+justify-content: center;
+z-index: 1000;
+}
+
+.phone-menu.show {
+display: flex;
+animation: fadeIn 0.3s;
+}
+
+.phone-menu-content {
+background: var(--bg-card);
+border-radius: 20px;
+padding: 25px;
+width: 90%;
+max-width: 350px;
+}
+
+.phone-menu-content h4 {
+font-size: 18px;
+font-weight: 700;
+margin-bottom: 15px;
+color: var(--text-primary);
+text-align: center;
+}
+
+.phone-options {
+display: flex;
+flex-direction: column;
+gap: 10px;
+}
+
+.phone-option {
+background: var(--bg-secondary);
+border: 2px solid var(--border-color);
+border-radius: 12px;
+padding: 15px;
+cursor: pointer;
+transition: all 0.2s;
+display: flex;
+flex-direction: column;
+gap: 5px;
+text-align: left;
+}
+
+.phone-option:hover {
+background: rgba(37, 149, 232, 0.1);
+border-color: #2595e8;
+}
+
+.phone-option:active {
+transform: scale(0.98);
+}
+
+.phone-label {
+font-size: 12px;
+font-weight: 600;
+color: var(--text-secondary);
+text-transform: uppercase;
+}
+
+.phone-number {
+font-size: 16px;
+font-weight: 600;
+color: var(--text-primary);
 }
 
 /* Bottom Navigation */
