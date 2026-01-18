@@ -838,6 +838,7 @@ display: flex;
 justify-content: space-around;
 padding: 0;
 box-shadow: 0 -2px 10px var(--shadow);
+z-idex:10000;
 }
 
 .nav-icon svg{
