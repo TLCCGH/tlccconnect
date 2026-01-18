@@ -85,7 +85,7 @@ const { error } = await supabaseClient.auth.signInWithPassword({ email, password
 
 if (error) {
 showAuthError(error.message);
-showMessage('❌ ' + error.message, 'error');
+showMessage(error.message, 'error');
  }
 
  loginBtn.disabled = false;
@@ -94,7 +94,7 @@ showMessage('❌ ' + error.message, 'error');
 
 async function logout() {
 await supabaseClient.auth.signOut();
-showMessage('👋 Logged out', 'success');
+showMessage('Logged out', 'success');
 }
 
 function showAuthError(message) {
@@ -223,9 +223,9 @@ const submitBtn = document.getElementById('submitBtn');
 
  if (error) {
  console.error('Error adding contact:', error);
- showMessage('❌ ' + error.message, 'error');
+ showMessage(error.message, 'error');
  } else {
- showMessage('✅ Contact saved!');
+ showMessage('Contact saved!');
  e.target.reset();
  }
  } else {
@@ -255,9 +255,9 @@ const submitBtn = document.getElementById('submitBtn');
 
  if (error) {
  console.error('Error adding Men\'s Fellowship member:', error);
- showMessage('❌ ' + error.message, 'error');
+ showMessage(error.message, 'error');
  } else {
- showMessage('✅ Men\'s Fellowship member saved!');
+ showMessage('Men\'s Fellowship member saved!');
  e.target.reset();
  }
  }
@@ -280,7 +280,7 @@ const { data, error } = await supabaseClient
 
 if (error) {
  console.error('Error loading contacts:', error);
- list.innerHTML = '<div class="empty-state">❌ Error loading contacts</div>';
+ list.innerHTML = '<div class="empty-state">Error loading contacts</div>';
 return;
  }
 
@@ -300,7 +300,7 @@ const { data, error } = await supabaseClient
 
 if (error) {
  console.error("Men's Fellowship Fetch Error:", error);
- list.innerHTML = "<div class='empty-state'>❌ Error loading Men's Fellowship<br>Check console for details</div>";
+ list.innerHTML = "<div class='empty-state'>Error loading Men's Fellowship<br>Check console for details</div>";
 return;
  }
 
@@ -742,7 +742,7 @@ const { error } = await supabaseClient.from(TABLE_NAME).update({
 
 if (error) {
  console.error('Error updating called status:', error);
-showMessage('❌ Error updating status: ' + error.message, 'error');
+showMessage('Error updating status: ' + error.message, 'error');
  } else {
 showMessage(newStatus ? '✅ Marked as called' : '✅ Called status removed');
 loadContacts();
@@ -755,7 +755,7 @@ const newStatus = !status;
 
 if (!id || id === 'undefined') {
  console.error('Invalid ID provided to toggleMensCalled:', id);
-showMessage('❌ Error: Cannot update - invalid member ID', 'error');
+showMessage('Error: Cannot update - invalid member ID', 'error');
 return;
  }
 
@@ -794,11 +794,11 @@ break;
  }
 
 if (updateResult) {
-showMessage(newStatus ? '✅ Marked as called' : '✅ Called status removed');
+showMessage(newStatus ? 'Marked as called' : 'Called status removed');
 loadMensFellowship();
  } else {
  console.error('All ID column attempts failed. Last error:', lastError);
-showMessage('❌ Error: ' + (lastError?.message || 'Could not find ID column'), 'error');
+showMessage('Error: ' + (lastError?.message || 'Could not find ID column'), 'error');
  }
 }
 
