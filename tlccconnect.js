@@ -40,61 +40,172 @@ initTheme();
  AUTH STATE
 ================================ */
 (async () => {
-const { data: { session } } = await supabaseClient.auth.getSession();
-if (session) {
- currentUser = session.user;
-showMainApp();
- }
+  // Check for existing session on page load
+  const { data: { session } } = await supabaseClient.auth.getSession();
+  
+  // Only auto-login if there's a valid session
+  if (session && session.user) {
+    currentUser = session.user;
+    showMainApp();
+  } else {
+    // No valid session, show auth screen
+    showAuthScreen();
+  }
 })();
 
 supabaseClient.auth.onAuthStateChange((event, session) => {
-if (event === 'SIGNED_IN') {
- currentUser = session.user;
-showMainApp();
- }
-if (event === 'SIGNED_OUT') {
- currentUser = null;
-showAuthScreen();
- }
+  console.log('Auth state changed:', event);
+  
+  if (event === 'SIGNED_IN' && session) {
+    currentUser = session.user;
+    showMainApp();
+  }
+  
+  if (event === 'SIGNED_OUT') {
+    currentUser = null;
+    allContacts = [];
+    showAuthScreen();
+  }
+  
+  // Handle token refresh
+  if (event === 'TOKEN_REFRESHED' && session) {
+    currentUser = session.user;
+  }
+  
+  // Handle user updated
+  if (event === 'USER_UPDATED' && session) {
+    currentUser = session.user;
+  }
 });
 
 /* ================================
  AUTH UI & LOGIN
 ================================ */
 function showMainApp() {
- document.getElementById('authContainer').style.display = 'none';
- document.getElementById('mainApp').style.display = 'block';
-loadContacts();
+  document.getElementById('authContainer').style.display = 'none';
+  document.getElementById('mainApp').style.display = 'block';
+  
+  // Load contacts only if we have a valid user
+  if (currentUser) {
+    loadContacts();
+  }
 }
 
 function showAuthScreen() {
- document.getElementById('authContainer').style.display = 'flex';
- document.getElementById('mainApp').style.display = 'none';
+  document.getElementById('authContainer').style.display = 'flex';
+  document.getElementById('mainApp').style.display = 'none';
+  
+  // Clear any displayed data
+  const contactsList = document.getElementById('contactsList');
+  if (contactsList) {
+    contactsList.innerHTML = '';
+  }
+  
+  // Reset form fields
+  const loginForm = document.getElementById('loginForm');
+  if (loginForm) {
+    loginForm.reset();
+  }
+  
+  // Clear any error messages
+  const authError = document.getElementById('authError');
+  if (authError) {
+    authError.classList.remove('show');
+    authError.textContent = '';
+  }
 }
 
 document.getElementById('loginForm').addEventListener('submit', async (e) => {
- e.preventDefault();
-const email = document.getElementById('loginEmail').value;
-const password = document.getElementById('loginPassword').value;
-const loginBtn = document.getElementById('loginBtn');
+  e.preventDefault();
+  
+  const email = document.getElementById('loginEmail').value.trim();
+  const password = document.getElementById('loginPassword').value;
+  const loginBtn = document.getElementById('loginBtn');
 
- loginBtn.disabled = true;
- loginBtn.textContent = 'Logging in...';
+  // Validation
+  if (!email || !password) {
+    showAuthError('Please enter both email and password');
+    return;
+  }
 
-const { error } = await supabaseClient.auth.signInWithPassword({ email, password });
+  loginBtn.disabled = true;
+  loginBtn.textContent = 'Logging in...';
 
-if (error) {
-showAuthError(error.message);
-showMessage(error.message, 'error');
- }
+  try {
+    // Sign in with Supabase
+    const { data, error } = await supabaseClient.auth.signInWithPassword({ 
+      email, 
+      password 
+    });
 
- loginBtn.disabled = false;
- loginBtn.textContent = 'Login';
+    if (error) {
+      console.error('Login error:', error);
+      showAuthError(error.message);
+      showMessage('❌ ' + error.message, 'error');
+    } else if (data && data.user) {
+      // Login successful
+      currentUser = data.user;
+      console.log('Login successful:', currentUser.email);
+      showMessage('✅ Login successful', 'success');
+      showMainApp();
+    } else {
+      showAuthError('Login failed - no user data returned');
+    }
+  } catch (err) {
+    console.error('Login exception:', err);
+    showAuthError('An unexpected error occurred');
+    showMessage('❌ Login failed', 'error');
+  } finally {
+    loginBtn.disabled = false;
+    loginBtn.textContent = 'Login';
+  }
 });
 
 async function logout() {
-await supabaseClient.auth.signOut();
-showMessage('Logged out', 'success');
+  try {
+    // Sign out from Supabase
+    const { error } = await supabaseClient.auth.signOut();
+    
+    if (error) {
+      console.error('Logout error:', error);
+      showMessage('❌ Logout failed: ' + error.message, 'error');
+      return;
+    }
+    
+    // Clear current user
+    currentUser = null;
+    allContacts = [];
+    
+    // Clear any cached data
+    localStorage.removeItem('supabase.auth.token');
+    sessionStorage.clear();
+    
+    // Clear service worker cache for auth data (optional)
+    if ('caches' in window) {
+      caches.keys().then(names => {
+        names.forEach(name => {
+          if (name.includes('runtime')) {
+            caches.delete(name);
+          }
+        });
+      });
+    }
+    
+    // Show success message
+    showMessage('👋 Logged out successfully', 'success');
+    
+    // Show auth screen
+    showAuthScreen();
+    
+    // Force reload after a short delay to ensure clean state
+    setTimeout(() => {
+      window.location.reload();
+    }, 500);
+    
+  } catch (err) {
+    console.error('Logout exception:', err);
+    showMessage('❌ Logout error', 'error');
+  }
 }
 
 function showAuthError(message) {
@@ -223,9 +334,9 @@ const submitBtn = document.getElementById('submitBtn');
 
  if (error) {
  console.error('Error adding contact:', error);
- showMessage(error.message, 'error');
+ showMessage('❌ ' + error.message, 'error');
  } else {
- showMessage('Contact saved!');
+ showMessage('✅ Contact saved!');
  e.target.reset();
  }
  } else {
@@ -255,9 +366,9 @@ const submitBtn = document.getElementById('submitBtn');
 
  if (error) {
  console.error('Error adding Men\'s Fellowship member:', error);
- showMessage(error.message, 'error');
+ showMessage('❌ ' + error.message, 'error');
  } else {
- showMessage('Men\'s Fellowship member saved!');
+ showMessage('✅ Men\'s Fellowship member saved!');
  e.target.reset();
  }
  }
@@ -280,7 +391,7 @@ const { data, error } = await supabaseClient
 
 if (error) {
  console.error('Error loading contacts:', error);
- list.innerHTML = '<div class="empty-state">Error loading contacts</div>';
+ list.innerHTML = '<div class="empty-state">❌ Error loading contacts</div>';
 return;
  }
 
@@ -300,7 +411,7 @@ const { data, error } = await supabaseClient
 
 if (error) {
  console.error("Men's Fellowship Fetch Error:", error);
- list.innerHTML = "<div class='empty-state'>Error loading Men's Fellowship<br>Check console for details</div>";
+ list.innerHTML = "<div class='empty-state'>❌ Error loading Men's Fellowship<br>Check console for details</div>";
 return;
  }
 
@@ -742,7 +853,7 @@ const { error } = await supabaseClient.from(TABLE_NAME).update({
 
 if (error) {
  console.error('Error updating called status:', error);
-showMessage('Error updating status: ' + error.message, 'error');
+showMessage('❌ Error updating status: ' + error.message, 'error');
  } else {
 showMessage(newStatus ? '✅ Marked as called' : '✅ Called status removed');
 loadContacts();
@@ -755,7 +866,7 @@ const newStatus = !status;
 
 if (!id || id === 'undefined') {
  console.error('Invalid ID provided to toggleMensCalled:', id);
-showMessage('Error: Cannot update - invalid member ID', 'error');
+showMessage('❌ Error: Cannot update - invalid member ID', 'error');
 return;
  }
 
@@ -794,11 +905,11 @@ break;
  }
 
 if (updateResult) {
-showMessage(newStatus ? 'Marked as called' : 'Called status removed');
+showMessage(newStatus ? '✅ Marked as called' : '✅ Called status removed');
 loadMensFellowship();
  } else {
  console.error('All ID column attempts failed. Last error:', lastError);
-showMessage('Error: ' + (lastError?.message || 'Could not find ID column'), 'error');
+showMessage('❌ Error: ' + (lastError?.message || 'Could not find ID column'), 'error');
  }
 }
 
