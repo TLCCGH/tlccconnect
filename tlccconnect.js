@@ -141,12 +141,12 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
     if (error) {
       console.error('Login error:', error);
       showAuthError(error.message);
-      showMessage('❌ ' + error.message, 'error');
+      showMessage(error.message, 'error');
     } else if (data && data.user) {
       // Login successful
       currentUser = data.user;
       console.log('Login successful:', currentUser.email);
-      showMessage('✅ Login successful', 'success');
+      showMessage('Login successful', 'success');
       showMainApp();
     } else {
       showAuthError('Login failed - no user data returned');
@@ -154,7 +154,7 @@ document.getElementById('loginForm').addEventListener('submit', async (e) => {
   } catch (err) {
     console.error('Login exception:', err);
     showAuthError('An unexpected error occurred');
-    showMessage('❌ Login failed', 'error');
+    showMessage('Login failed', 'error');
   } finally {
     loginBtn.disabled = false;
     loginBtn.textContent = 'Login';
@@ -168,7 +168,7 @@ async function logout() {
     
     if (error) {
       console.error('Logout error:', error);
-      showMessage('❌ Logout failed: ' + error.message, 'error');
+      showMessage('Logout failed: ' + error.message, 'error');
       return;
     }
     
@@ -192,7 +192,7 @@ async function logout() {
     }
     
     // Show success message
-    showMessage('👋 Logged out successfully', 'success');
+    showMessage('Logged out successfully', 'success');
     
     // Show auth screen
     showAuthScreen();
@@ -204,7 +204,7 @@ async function logout() {
     
   } catch (err) {
     console.error('Logout exception:', err);
-    showMessage('❌ Logout error', 'error');
+    showMessage('Logout error', 'error');
   }
 }
 
@@ -334,9 +334,9 @@ const submitBtn = document.getElementById('submitBtn');
 
  if (error) {
  console.error('Error adding contact:', error);
- showMessage('❌ ' + error.message, 'error');
+ showMessage(error.message, 'error');
  } else {
- showMessage('✅ Contact saved!');
+ showMessage('Contact saved!');
  e.target.reset();
  }
  } else {
@@ -366,9 +366,9 @@ const submitBtn = document.getElementById('submitBtn');
 
  if (error) {
  console.error('Error adding Men\'s Fellowship member:', error);
- showMessage('❌ ' + error.message, 'error');
+ showMessage(error.message, 'error');
  } else {
- showMessage('✅ Men\'s Fellowship member saved!');
+ showMessage('Men\'s Fellowship member saved!');
  e.target.reset();
  }
  }
@@ -391,7 +391,7 @@ const { data, error } = await supabaseClient
 
 if (error) {
  console.error('Error loading contacts:', error);
- list.innerHTML = '<div class="empty-state">❌ Error loading contacts</div>';
+ list.innerHTML = '<div class="empty-state">Error loading contacts</div>';
 return;
  }
 
@@ -411,7 +411,7 @@ const { data, error } = await supabaseClient
 
 if (error) {
  console.error("Men's Fellowship Fetch Error:", error);
- list.innerHTML = "<div class='empty-state'>❌ Error loading Men's Fellowship<br>Check console for details</div>";
+ list.innerHTML = "<div class='empty-state'>Error loading Men's Fellowship<br>Check console for details</div>";
 return;
  }
 
@@ -853,9 +853,9 @@ const { error } = await supabaseClient.from(TABLE_NAME).update({
 
 if (error) {
  console.error('Error updating called status:', error);
-showMessage('❌ Error updating status: ' + error.message, 'error');
+showMessage('Error updating status: ' + error.message, 'error');
  } else {
-showMessage(newStatus ? '✅ Marked as called' : '✅ Called status removed');
+showMessage(newStatus ? 'Marked as called' : '✅ Called status removed');
 loadContacts();
  }
 }
@@ -866,7 +866,7 @@ const newStatus = !status;
 
 if (!id || id === 'undefined') {
  console.error('Invalid ID provided to toggleMensCalled:', id);
-showMessage('❌ Error: Cannot update - invalid member ID', 'error');
+showMessage('Error: Cannot update - invalid member ID', 'error');
 return;
  }
 
@@ -905,11 +905,11 @@ break;
  }
 
 if (updateResult) {
-showMessage(newStatus ? '✅ Marked as called' : '✅ Called status removed');
+showMessage(newStatus ? 'Marked as called' : 'Called status removed');
 loadMensFellowship();
  } else {
  console.error('All ID column attempts failed. Last error:', lastError);
-showMessage('❌ Error: ' + (lastError?.message || 'Could not find ID column'), 'error');
+showMessage('Error: ' + (lastError?.message || 'Could not find ID column'), 'error');
  }
 }
 
